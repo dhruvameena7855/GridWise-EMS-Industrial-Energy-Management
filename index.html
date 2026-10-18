@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a111d" />
+  <title>GridWise EMS — Industrial Energy Intelligence</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-lockup">
+        <div class="brand-mark"><span></span><span></span><span></span></div>
+        <div><div class="brand-name">GridWise<span> EMS</span></div><div class="brand-subtitle">INDUSTRIAL ENERGY INTELLIGENCE</div></div>
+      </div>
+      <div class="site-selector">
+        <div class="site-icon">GW</div>
+        <div class="site-copy"><small>ACTIVE SITE</small><strong id="sidebar-site-name">Demo Industrial Plant</strong></div>
+        <span class="chevron">⌄</span>
+      </div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="primary-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">◫</span><span>Overview</span><span class="nav-trail"></span></button>
+        <button class="nav-item" data-view="comparison"><span class="nav-icon">⌁</span><span>Strategy comparison</span></button>
+        <button class="nav-item" data-view="scenario"><span class="nav-icon">⚙</span><span>Scenario lab</span></button>
+      </nav>
+      <div class="sidebar-divider"></div>
+      <div class="nav-label">SYSTEM</div>
+      <div class="system-status"><span class="status-dot green"></span><span>Simulation engine</span><b id="engine-status">Checking</b></div>
+      <div class="system-status"><span class="status-dot green"></span><span>Data source</span><b>Synthetic</b></div>
+      <div class="sidebar-note"><div class="note-glyph">ⓘ</div><div><strong>Simulation mode</strong><p>Not connected to plant equipment. Inputs and results are engineering estimates.</p></div></div>
+      <div class="sidebar-bottom"><span class="version-mark">GW</span><div><strong>GridWise EMS</strong><small>Portfolio build · v1.0.0</small></div><span class="version-pill">LOCAL</span></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Workspace</span><span class="crumb-sep">/</span><strong id="breadcrumb-current">Overview</strong></div>
+        <div class="topbar-actions"><span class="demo-pill"><span class="status-dot amber"></span> Synthetic demo</span><button class="icon-button" id="refresh-button" title="Re-run current scenario" aria-label="Re-run current scenario">↻</button><div class="avatar">EEE</div></div>
+      </header>
+
+      <section class="page view active" id="view-overview">
+        <div class="page-heading">
+          <div><div class="eyebrow">ENERGY CONTROL CENTRE <span id="run-badge" class="run-badge">NO RUN YET</span></div><h1>Industrial energy overview</h1><p>Live-style view of a simulated factory, solar array, battery storage and grid connection.</p></div>
+          <div class="heading-actions"><button class="btn btn-secondary" id="download-csv">⇩ Export CSV</button><button class="btn btn-primary" id="run-top">▶ Run simulation</button></div>
+        </div>
+        <div class="alert-banner" id="alert-banner"><span class="alert-icon">ⓘ</span><div><strong>Start with a baseline run</strong><p>Run the simulation to populate the plant dashboard and compare energy strategies.</p></div><button id="alert-run">Run now <span>→</span></button></div>
+        <div class="metric-grid" id="metric-grid">
+          <article class="metric-card"><div class="metric-top"><span>Total modeled cost</span><span class="metric-icon purple">₹</span></div><div class="metric-value" id="metric-cost">—</div><div class="metric-foot"><span class="metric-muted">Selected horizon</span><span class="metric-tag neutral">INR</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Peak grid demand</span><span class="metric-icon blue">↗</span></div><div class="metric-value" id="metric-peak">—</div><div class="metric-foot"><span class="metric-muted">Billing uses kVA</span><span class="metric-tag neutral">kVA</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Solar self-consumption</span><span class="metric-icon green">☀</span></div><div class="metric-value" id="metric-solar">—</div><div class="metric-foot"><span class="metric-muted">Estimated on-site use</span><span class="metric-tag neutral">%</span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Grid CO₂ estimate</span><span class="metric-icon amber">◇</span></div><div class="metric-value" id="metric-co2">—</div><div class="metric-foot"><span class="metric-muted">Plus modeled DG emissions</span><span class="metric-tag neutral">kg</span></div></article>
+        </div>
+
+        <div class="section-grid main-charts-grid">
+          <section class="panel chart-panel span-two">
+            <div class="panel-heading"><div><div class="eyebrow">POWER PROFILE</div><h2>Load, solar & grid import</h2><p>15-minute interval data · kW</p></div><div class="chart-legend"><span><i class="legend-dot load"></i>Factory load</span><span><i class="legend-dot solar"></i>Solar</span><span><i class="legend-dot grid"></i>Grid import</span></div></div>
+            <div class="chart-area" id="power-chart"><div class="empty-chart"><span>⌁</span><strong>Your operating profile will appear here</strong><small>Run a simulation to generate interval data.</small></div></div>
+            <div class="chart-axis-note"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+          </section>
+          <section class="panel dispatch-panel">
+            <div class="panel-heading"><div><div class="eyebrow">CURRENT STATE</div><h2>Energy balance</h2><p id="energy-time-label">Selected sample interval</p></div><span class="live-tag"><span class="status-dot green"></span> SIMULATED</span></div>
+            <div class="flow-stack" id="flow-stack">
+              <div class="flow-row"><div class="flow-symbol solar-symbol">☀</div><div class="flow-copy"><strong>Solar PV</strong><small>Available generation</small></div><b id="flow-solar">—</b></div>
+              <div class="flow-row"><div class="flow-symbol grid-symbol">↔</div><div class="flow-copy"><strong>Grid import</strong><small>Active power</small></div><b id="flow-grid">—</b></div>
+              <div class="flow-row"><div class="flow-symbol battery-symbol">▣</div><div class="flow-copy"><strong>Battery storage</strong><small id="flow-battery-state">State of charge</small></div><b id="flow-battery">—</b></div>
+              <div class="flow-row"><div class="flow-symbol dg-symbol">⚡</div><div class="flow-copy"><strong>Diesel generator</strong><small id="flow-dg-state">Committed output</small></div><b id="flow-dg">—</b></div>
+            </div>
+            <div class="soc-wrap"><div class="soc-label"><span>Battery state of charge</span><b id="soc-text">—</b></div><div class="progress-track"><div id="soc-bar" class="progress-fill" style="width:0%"></div></div><div class="soc-ends"><span>Reserve</span><span>Max SOC</span></div></div>
+            <div class="micro-grid"><div><small>Grid PF</small><strong id="flow-pf">—</strong></div><div><small>Grid demand</small><strong id="flow-kva">—</strong></div></div>
+          </section>
+        </div>
+
+        <div class="section-grid lower-grid">
+          <section class="panel"><div class="panel-heading"><div><div class="eyebrow">CONTROL EXPLAINER</div><h2>Why did it act?</h2><p>Decision trace for the selected interval</p></div><span class="icon-badge">✦</span></div><div class="decision-box" id="decision-box"><div class="decision-marker">→</div><div><strong>Waiting for simulation</strong><p>Controller decisions and guardrails will be explained here.</p></div></div><div class="guardrail-list" id="guardrail-list"><div><span class="guardrail-check">✓</span><span>Monthly kVA demand carry-forward</span><b>Ready</b></div><div><span class="guardrail-check">✓</span><span>Battery SOC reserve</span><b>Ready</b></div><div><span class="guardrail-check">✓</span><span>DG minimum run time</span><b>Ready</b></div><div><span class="guardrail-check">✓</span><span>Grid / transformer limits</span><b>Ready</b></div></div></section>
+          <section class="panel"><div class="panel-heading"><div><div class="eyebrow">STRATEGY SNAPSHOT</div><h2>Cost at a glance</h2><p>Same synthetic profile and tariff settings</p></div><button class="text-link" data-view="comparison">Compare all →</button></div><div class="mini-bars" id="mini-bars"><div class="empty-mini">Run a simulation to compare strategies.</div></div></section>
+        </div>
+        <section class="panel recent-panel"><div class="panel-heading"><div><div class="eyebrow">RUN HISTORY</div><h2>Recent simulations</h2><p>Saved locally to the project database</p></div><button class="text-link" id="refresh-runs">Refresh history →</button></div><div id="recent-runs" class="recent-runs"><div class="empty-inline">No saved runs yet.</div></div></section>
+      </section>
+
+      <section class="page view" id="view-comparison">
+        <div class="page-heading"><div><div class="eyebrow">PERFORMANCE ENGINEERING</div><h1>Strategy comparison</h1><p>Compare the operating cost and electrical consequences of different dispatch strategies on the same profile.</p></div><div class="heading-actions"><button class="btn btn-secondary" id="comparison-export">⇩ Export CSV</button><button class="btn btn-primary" id="comparison-run">↻ Recalculate</button></div></div>
+        <div class="callout"><span class="callout-icon">◎</span><div><strong>Fair comparison</strong><p>All strategies use the same load, solar, tariff, battery limits and month-to-date demand peak. Perfect-information MPC sees the true generated future inside its 24-hour horizon; it is an idealized benchmark.</p></div></div>
+        <section class="panel"><div class="panel-heading"><div><div class="eyebrow">TOTAL MODELED COST</div><h2>Operating cost by strategy</h2><p>Lower is better · includes energy, incremental demand charge, PF adjustment, estimated wear and DG fuel.</p></div><span class="unit-pill">₹ INR</span></div><div class="bar-chart" id="cost-chart"><div class="empty-chart"><strong>Waiting for a completed run</strong></div></div></section>
+        <section class="panel table-panel"><div class="panel-heading"><div><div class="eyebrow">ENGINEERING SCORECARD</div><h2>Measured outputs</h2><p>Cost is only one metric. Inspect demand, PF, battery cycles and unserved load.</p></div></div><div class="table-scroll"><table class="data-table"><thead><tr><th>Strategy</th><th>Total cost</th><th>Peak demand</th><th>Avg. PF</th><th>Battery discharge</th><th>DG fuel</th><th>Unserved load</th><th>Balance error</th></tr></thead><tbody id="comparison-table"><tr><td colspan="8" class="table-empty">Run the simulation first.</td></tr></tbody></table></div></section>
+        <section class="section-grid benchmark-grid"><article class="panel benchmark-card"><div class="eyebrow">VALUE OF FORECASTING</div><h2 id="forecasting-title">Forecast controller vs ideal information</h2><div class="benchmark-value" id="forecast-regret">—</div><p id="forecast-summary">Compare after a run to see the realized cost gap between synthetic forecasts and perfect information.</p></article><article class="panel benchmark-card"><div class="eyebrow">MONTHLY DEMAND MEMORY</div><h2>kVA billing state</h2><div class="benchmark-value" id="monthly-peak-value">—</div><p id="monthly-peak-summary">The controller carries the billing-period peak forward instead of resetting demand charges every day.</p></article></section>
+      </section>
+
+      <section class="page view" id="view-scenario">
+        <div class="page-heading"><div><div class="eyebrow">WHAT-IF ENGINEERING</div><h1>Scenario lab</h1><p>Adjust the electrical plant, battery, tariff and operating constraints, then rerun the dispatch model.</p></div><div class="heading-actions"><button class="btn btn-secondary" id="reset-config">Reset defaults</button><button class="btn btn-primary" id="scenario-run">▶ Run scenario</button></div></div>
+        <div class="scenario-layout">
+          <section class="panel config-panel"><div class="panel-heading"><div><div class="eyebrow">SITE CONFIGURATION</div><h2>Model inputs</h2><p>All rates are per configured demonstration period unless stated otherwise.</p></div><span class="unit-pill">15 MIN</span></div>
+            <form id="scenario-form">
+              <div class="form-section-title">01 · Site & profile</div>
+              <div class="form-grid"><label class="field field-wide">Site label<input id="site_name" name="site_name" maxlength="80" value="Demo Industrial Plant" /></label><label class="field field-wide">Industrial archetype<select id="industry_preset" name="industry_preset"><option value="factory_shift">Shift-based manufacturing plant</option><option value="jio_datacenter">24×7 data-centre archetype</option><option value="refinery_utilities">Refinery utilities archetype</option></select><small>Archetypes are synthetic, not actual site telemetry.</small></label><label class="field">Simulation days<input id="days" name="days" type="number" min="1" max="3" step="1" value="1" /></label><label class="field">Load scaling<input id="factory_load_scale" name="factory_load_scale" type="number" min="0.2" max="3" step="0.1" value="1" /></label></div>
+              <div class="form-section-title">02 · Solar PV system</div>
+              <div class="form-grid"><label class="field">Solar DC capacity<input id="solar_capacity_dc_kw" name="solar_capacity_dc_kw" type="number" min="0" max="10000" step="25" value="500" /><small>kWp</small></label><label class="field">DC / AC ratio<input id="solar_dc_ac_ratio" name="solar_dc_ac_ratio" type="number" min="1" max="2" step="0.05" value="1.2" /></label><label class="field">Solar inverter efficiency<input id="solar_inverter_efficiency" name="solar_inverter_efficiency" type="number" min="0.8" max="1" step="0.01" value="0.97" /></label><label class="field">Export limit<input id="max_grid_export_kw" name="max_grid_export_kw" type="number" min="0" max="20000" step="25" value="1000" /></label></div>
+              <div class="form-section-title">03 · Battery energy storage</div>
+              <div class="form-grid"><label class="field">Battery capacity<input id="battery_capacity_kwh" name="battery_capacity_kwh" type="number" min="0" max="20000" step="25" value="600" /><small>kWh</small></label><label class="field">Power rating<input id="battery_power_kw" name="battery_power_kw" type="number" min="0" max="10000" step="10" value="200" /><small>kW</small></label><label class="field">Battery inverter<input id="battery_inverter_kva" name="battery_inverter_kva" type="number" min="0" max="20000" step="10" value="250" /><small>kVA</small></label><label class="field">C-rate<input id="battery_c_rate" name="battery_c_rate" type="number" min="0.01" max="4" step="0.05" value="0.5" /></label><label class="field">Initial SOC<input id="initial_soc_pct" name="initial_soc_pct" type="number" min="0" max="100" step="1" value="65" /><small>%</small></label><label class="field">Reserve SOC<input id="reserve_soc_pct" name="reserve_soc_pct" type="number" min="0" max="100" step="1" value="25" /><small>%</small></label><label class="field">Minimum SOC<input id="min_soc_pct" name="min_soc_pct" type="number" min="0" max="100" step="1" value="10" /><small>%</small></label><label class="field">Maximum SOC<input id="max_soc_pct" name="max_soc_pct" type="number" min="0" max="100" step="1" value="95" /><small>%</small></label></div>
+              <div class="form-section-title">04 · Electrical & billing layer</div>
+              <div class="form-grid"><label class="field">Load power factor<input id="load_power_factor" name="load_power_factor" type="number" min="0.5" max="1" step="0.01" value="0.88" /></label><label class="field">Transformer rating<input id="transformer_rating_kva" name="transformer_rating_kva" type="number" min="1" max="50000" step="25" value="650" /><small>kVA</small></label><label class="field">Contract demand<input id="contract_demand_kva" name="contract_demand_kva" type="number" min="1" max="50000" step="25" value="500" /><small>kVA</small></label><label class="field">Month-to-date peak<input id="peak_kva_so_far_this_month" name="peak_kva_so_far_this_month" type="number" min="0" max="50000" step="10" value="300" /><small>kVA</small></label><label class="field">Demand charge<input id="demand_charge_inr_kva_month" name="demand_charge_inr_kva_month" type="number" min="0" max="100000" step="10" value="300" /><small>₹/kVA/month</small></label><label class="field">Minimum billable fraction<input id="minimum_billable_demand_fraction" name="minimum_billable_demand_fraction" type="number" min="0" max="1" step="0.05" value="0.75" /></label><label class="field">Grid import cap<input id="grid_import_limit_kw" name="grid_import_limit_kw" type="number" min="0" max="20000" step="25" placeholder="No separate cap" /></label><label class="field">DG generator capacity<input id="dg_capacity_kw" name="dg_capacity_kw" type="number" min="0" max="10000" step="10" value="200" /><small>kW</small></label></div>
+              <div class="form-section-title">05 · Tariff & fuel assumptions</div>
+              <div class="form-grid"><label class="field field-wide">Tariff preset<select id="tariff_preset" name="tariff_preset"><option value="illustrative_tou">Illustrative time-of-day tariff (assumption)</option><option value="rajasthan_jvvnl_ht5_fy2024_25">Rajasthan JVVNL HT-5 historical reference · FY 2024–25</option></select><small id="tariff-description">Demo prices are configurable and are not represented as a current utility tariff.</small></label><label class="field">Off-peak rate<input id="off_peak_rate_inr_kwh" name="off_peak_rate_inr_kwh" type="number" min="0" max="1000" step="0.1" value="5.5" /><small>₹/kWh</small></label><label class="field">Normal rate<input id="normal_rate_inr_kwh" name="normal_rate_inr_kwh" type="number" min="0" max="1000" step="0.1" value="8.5" /><small>₹/kWh</small></label><label class="field">Peak rate<input id="peak_rate_inr_kwh" name="peak_rate_inr_kwh" type="number" min="0" max="1000" step="0.1" value="13.5" /><small>₹/kWh</small></label><label class="field">Export rate<input id="export_rate_inr_kwh" name="export_rate_inr_kwh" type="number" min="0" max="1000" step="0.1" value="2" /><small>₹/kWh</small></label><label class="field">Diesel price<input id="diesel_price_inr_l" name="diesel_price_inr_l" type="number" min="0" max="1000" step="1" value="95" /><small>₹/L</small></label><label class="field">DG fuel consumption<input id="dg_fuel_l_per_kwh" name="dg_fuel_l_per_kwh" type="number" min="0" max="5" step="0.01" value="0.27" /><small>L/kWh</small></label><label class="field">Load forecast error<input id="forecast_load_error_pct" name="forecast_load_error_pct" type="number" min="0" max="50" step="1" value="5" /><small>% standard deviation</small></label><label class="field">Solar forecast error<input id="forecast_solar_error_pct" name="forecast_solar_error_pct" type="number" min="0" max="80" step="1" value="15" /><small>% standard deviation</small></label></div>
+              <details class="advanced-config">
+                <summary>Advanced engineering limits, PF, degradation & emissions</summary>
+                <div class="form-section-title">Battery, inverter and thermal limits</div>
+                <div class="form-grid">
+                  <label class="field">Charge efficiency<input id="charge_efficiency" type="number" min="0.5" max="1" step="0.01" /></label>
+                  <label class="field">Discharge efficiency<input id="discharge_efficiency" type="number" min="0.5" max="1" step="0.01" /></label>
+                  <label class="field">Inverter efficiency · minimum<input id="battery_inverter_efficiency_min" type="number" min="0.7" max="1" step="0.01" /></label>
+                  <label class="field">Inverter efficiency · rated<input id="battery_inverter_efficiency_rated" type="number" min="0.8" max="1" step="0.01" /></label>
+                  <label class="field">Battery ramp limit<input id="battery_ramp_kw_per_minute" type="number" min="0.1" max="1000" step="0.5" /><small>kW/min</small></label>
+                  <label class="field">Thermal derating starts<input id="battery_temperature_derate_start_c" type="number" min="15" max="80" step="1" /><small>°C</small></label>
+                  <label class="field">Power derating per °C<input id="battery_temperature_derate_pct_per_c" type="number" min="0" max="10" step="0.1" /><small>% per °C</small></label>
+                  <label class="field">Reactive support limit<input id="battery_reactive_support_max_kvar" type="number" min="0" max="20000" step="10" /><small>kVAr</small></label>
+                </div>
+                <div class="form-section-title">Depth-of-discharge degradation approximation</div>
+                <div class="form-grid">
+                  <label class="field">Replacement-cost assumption<input id="battery_replacement_cost_inr_per_kwh" type="number" min="0" max="1000000" step="100" /><small>₹/kWh installed</small></label>
+                  <label class="field">Cycle life at 80% DoD<input id="cycle_life_at_80dod" type="number" min="100" max="50000" step="100" /></label>
+                  <label class="field">DoD life-curve exponent<input id="dod_life_curve_exponent" type="number" min="0.1" max="4" step="0.1" /></label>
+                  <label class="field">Reference cycle DoD<input id="expected_cycle_dod_pct" type="number" min="10" max="100" step="5" /><small>%</small></label>
+                </div>
+                <div class="form-section-title">Power factor and billing adjustments</div>
+                <div class="form-grid">
+                  <label class="field">PF reference<input id="pf_reference" type="number" min="0.5" max="1" step="0.01" /></label>
+                  <label class="field">PF penalty per 0.01<input id="pf_penalty_pct_per_0_01" type="number" min="0" max="20" step="0.25" /><small>%</small></label>
+                  <label class="field">PF incentive threshold<input id="pf_incentive_threshold" type="number" min="0.5" max="1" step="0.01" /></label>
+                  <label class="field">PF incentive per 0.01<input id="pf_incentive_pct_per_0_01" type="number" min="0" max="20" step="0.25" /><small>%</small></label>
+                  <label class="field">Excess contract-demand multiplier<input id="excess_contract_demand_multiplier" type="number" min="1" max="5" step="0.1" /></label>
+                </div>
+                <div class="form-section-title">Diesel generator and carbon assumptions</div>
+                <div class="form-grid">
+                  <label class="field">DG minimum loading<input id="dg_min_loading_pct" type="number" min="0" max="100" step="5" /><small>% of rating</small></label>
+                  <label class="field">DG minimum run time<input id="dg_min_up_minutes" type="number" min="15" max="720" step="15" /><small>minutes</small></label>
+                  <label class="field">DG start cost<input id="dg_start_cost_inr" type="number" min="0" max="1000000" step="50" /><small>₹/start</small></label>
+                  <label class="field">DG running cost<input id="dg_running_cost_inr_per_hour" type="number" min="0" max="100000" step="10" /><small>₹/hour</small></label>
+                  <label class="field">Grid emissions factor<input id="grid_emissions_kg_kwh" type="number" min="0" max="10" step="0.001" /><small>kg CO₂/kWh · document source</small></label>
+                  <label class="field">Diesel emissions factor<input id="diesel_emissions_kg_l" type="number" min="0" max="20" step="0.01" /><small>kg CO₂/litre</small></label>
+                </div>
+                <div class="toggle-row compact"><div><strong>DG initially running</strong><small>Initial commitment state for the dispatch model</small></div><label class="switch"><input type="checkbox" id="dg_initially_on" /><span></span></label></div>
+              </details>
+              <div class="toggle-row"><div><strong>Diesel generator available</strong><small>Mixed-integer commitment with minimum up-time</small></div><label class="switch"><input type="checkbox" id="dg_enabled" checked /><span></span></label></div>
+              <div class="toggle-row"><div><strong>Grid export allowed</strong><small>Surplus goes to export up to the configured limit; otherwise it is curtailed</small></div><label class="switch"><input type="checkbox" id="export_enabled" checked /><span></span></label></div>
+              <div class="form-footer"><span id="form-status">Values are validated by the backend.</span><button type="submit" class="btn btn-primary">▶ Run this configuration</button></div>
+            </form>
+          </section>
+          <div class="scenario-side">
+            <section class="panel"><div class="panel-heading"><div><div class="eyebrow">RESILIENCE TEST</div><h2>Grid-outage scenario</h2><p>Estimate critical-load energy served after a simulated outage.</p></div><span class="icon-badge blue">⚡</span></div><form id="outage-form"><div class="form-grid"><label class="field">Outage start hour<input id="outage_start_hour" type="number" min="0" max="23.75" step="0.25" value="18" /></label><label class="field">Duration<input id="outage_duration_hours" type="number" min="0.25" max="24" step="0.25" value="2" /><small>hours</small></label><label class="field">Critical load share<input id="critical_load_pct" type="number" min="1" max="100" step="5" value="35" /><small>%</small></label><label class="field">Dispatch policy<select id="outage_strategy"><option value="forecast_mpc">Forecast MPC</option><option value="perfect_foresight">Perfect information</option><option value="rule_based">Rule-based</option><option value="solar_only">No battery baseline</option></select></label></div><div class="toggle-row compact"><div><strong>Solar available in outage</strong></div><label class="switch"><input id="solar_available_during_outage" type="checkbox" checked /><span></span></label></div><div class="toggle-row compact"><div><strong>DG available in outage</strong></div><label class="switch"><input id="dg_available_during_outage" type="checkbox" checked /><span></span></label></div><button type="submit" id="outage-run" class="btn btn-secondary btn-full">Run resilience test →</button></form><div id="outage-result" class="outage-result hidden"></div></section>
+            <section class="panel"><div class="panel-heading"><div><div class="eyebrow">BATTERY SIZING</div><h2>Capacity / payback sweep</h2><p>Compare indicative capacity choices.</p></div></div><p class="small-copy">Runs a perfect-information dispatch for several battery sizes and estimates simple payback and 10-year NPV from simulated savings.</p><button class="btn btn-secondary btn-full" id="sizing-run">Calculate sizing sweep →</button><div id="sizing-result" class="sizing-result hidden"></div></section>
+          </div>
+        </div>
+        <section class="panel compare-scenario-panel"><div class="panel-heading"><div><div class="eyebrow">SENSITIVITY ANALYSIS</div><h2>Compare plant scenarios</h2><p>Compare this configuration against low-battery, high-battery and expanded-solar variants.</p></div><button id="scenario-compare" class="btn btn-secondary">Compare scenarios →</button></div><div id="scenario-compare-result" class="scenario-compare-result"><div class="empty-inline">Run a scenario comparison to inspect sensitivity to sizing changes.</div></div></section>
+      </section>
+      <footer class="app-footer"><span>GridWise EMS · Simulation-first industrial energy optimization</span><span>Not connected to operational control equipment <i></i> Synthetic data</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
